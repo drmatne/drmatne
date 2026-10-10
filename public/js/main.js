@@ -110,8 +110,8 @@
     const socials = [];
     if (safeUrl(s.instagram)) socials.push(`<a href="${esc(s.instagram)}" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></a>`);
     if (safeUrl(s.facebook)) socials.push(`<a href="${esc(s.facebook)}" target="_blank" rel="noopener" aria-label="Facebook"><svg class="i" viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 00-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a>`);
-    socials.push(`<a href="${esc(waLink())}" target="_blank" rel="noopener" aria-label="WhatsApp">${WA}</a>`);
     $('#socials').innerHTML = socials.join('');
+    $('#socials').hidden = !socials.length;
   }
 
   function renderMarquee() {
