@@ -102,7 +102,7 @@
 
     const q = encodeURIComponent(s.mapQuery || s.address || 'Jalna');
     $('#mapFrame').src = `https://www.google.com/maps?q=${q}&output=embed`;
-    $('#directionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
+    $('#directionsLink').href = safeUrl(s.mapsLink) || `https://www.google.com/maps/dir/?api=1&destination=${q}`;
     const reviews = safeUrl(s.googleReviewsUrl);
     if (reviews) $('#reviewsLink').href = reviews;
     else $('#reviewsLink').hidden = true;

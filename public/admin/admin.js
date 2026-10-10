@@ -287,7 +287,7 @@
     const s = data.settings;
     const clinic = [s.clinicName, s.clinicSubName].filter(Boolean).join(' ');
     const mapQuery = encodeURIComponent(s.mapQuery || s.address || clinic).replace(/%20/g, '+').replace(/%2C/g, ',');
-    const mapUrl = `https://maps.google.com/?q=${mapQuery}`;
+    const mapUrl = s.mapsLink || `https://maps.google.com/?q=${mapQuery}`;
     const treatment = a.service && a.service !== 'Other' ? a.service.replace(/^Offer: /, '') : '';
     const opt = (value, line) => (value ? line : null);
     return [
@@ -785,7 +785,8 @@
             ${f('phone', 'Main phone', { ph: '+91 98905 70728' })}
             ${f('phone2', 'Alternate phone')}
             ${f('email', 'Email', { type: 'email' })}
-            ${f('mapQuery', 'Google Maps search text', { hint: 'Used for the map and the "Get directions" button.' })}
+            ${f('mapQuery', 'Google Maps search text', { hint: 'Used to show the map on the website.' })}
+            ${f('mapsLink', 'Google Maps link', { type: 'url', ph: 'https://maps.app.goo.gl/…', hint: 'Used for the "Get directions" button and the WhatsApp confirmation. In Google Maps, tap Share on your clinic and copy the link.' })}
             ${f('address', 'Address (English)', { span: true })}
             ${f('addressLocal', 'Address (Marathi)', { span: true })}
             ${f('hoursWeekdays', 'Clinic hours')}

@@ -80,6 +80,8 @@ async function loadDb() {
       console.log('Created data/db.json from seed. Default login: admin / admin123 — change it in the admin panel.');
     }
   }
+  // Settings added after the site launched pick up their seed defaults until edited.
+  db.settings = { ...seed.settings, ...db.settings };
   if (!db.sessionSecret) {
     db.sessionSecret = crypto.randomBytes(32).toString('hex');
     await saveDb();
@@ -358,12 +360,15 @@ admin.post('/password', async (req, res) => {
 
 const SETTINGS_FIELDS = [
   'clinicName', 'clinicSubName', 'heroEyebrow', 'heroTitle', 'heroSubtitle', 'announcement',
-  'whatsapp', 'whatsappMessage', 'phone', 'phone2', 'email', 'address', 'addressLocal', 'mapQuery',
+  'whatsapp', 'whatsappMessage', 'phone', 'phone2', 'email', 'address', 'addressLocal', 'mapQuery', 'mapsLink',
   'hoursWeekdays', 'hoursSunday', 'googleReviewsUrl', 'instagram', 'facebook',
 ];
 
 admin.put('/settings', async (req, res) => {
   const b = req.body || {};
+  if (str(b.mapsLink) && !/^https?:\/\//i.test(str(b.mapsLink))) {
+    return res.status(400).json({ error: 'The Google Maps link should start with https://' });
+  }
   for (const key of SETTINGS_FIELDS) {
     if (key in b) db.settings[key] = str(b[key], 600);
   }
