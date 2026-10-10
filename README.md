@@ -45,12 +45,12 @@ Vercel's disk is temporary, so in production the app stores content and appointm
 3. Under **Settings → Environment Variables**, add `ADMIN_PASSWORD` with a strong password. It sets the first login, so the site is never live with `admin123`.
 4. **Redeploy** so the new variables take effect.
 
-Optional: copy your existing local content and photos to the live site, which also keeps your current login:
+Optional: copy your existing local content and photos to the live site, (the live login is kept). Redis values are marked Sensitive and can't be downloaded, so after pulling, paste `KV_REST_API_URL` and `KV_REST_API_TOKEN` from the Upstash database page into `.env.local`:
 
 ```bash
 npx vercel link
-npx vercel env pull .env.local
-node --env-file=.env.local scripts/migrate-to-cloud.js
+npx vercel env pull .env.local --environment=production
+node --env-file=.env.local scripts/migrate-to-cloud.js --force
 ```
 
 Every push to `main` then redeploys automatically.

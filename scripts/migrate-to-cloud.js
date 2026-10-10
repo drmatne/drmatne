@@ -22,11 +22,17 @@ async function main() {
   }
   const redis = new Redis({ url, token });
 
-  if ((await redis.exists('md:db')) && !process.argv.includes('--force')) {
-    throw new Error('The cloud database already has content. Re-run with --force to overwrite it.');
+  const cloud = await redis.get('md:db');
+  if (cloud && !process.argv.includes('--force')) {
+    throw new Error('The live site already has content. Re-run with --force to replace it with your local content (the live login is kept).');
   }
 
   const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+  // Keep the live login (e.g. one set via ADMIN_PASSWORD) rather than the local one.
+  if (cloud?.admin) {
+    db.admin = cloud.admin;
+    db.sessionSecret = cloud.sessionSecret;
+  }
   const moved = new Map();
 
   async function migrate(src) {
@@ -61,7 +67,7 @@ async function main() {
   await redis.del('md:appointments');
   if (appointments.length) await redis.hset('md:appointments', Object.fromEntries(appointments.map((a) => [a.id, a])));
 
-  console.log(`Done: ${moved.size} images, ${appointments.length} appointments. Your admin login is unchanged.`);
+  console.log(`Done: ${moved.size} images, ${appointments.length} appointments copied. ${cloud?.admin ? 'The live admin login was kept.' : 'The live admin login is now your local one.'}`);
 }
 
 main().catch((err) => {
