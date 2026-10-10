@@ -1,0 +1,133 @@
+{
+  "settings": {
+    "clinicName": "Matne Advance Dental Clinic",
+    "clinicSubName": "& Implant Centre",
+    "heroEyebrow": "Jalna's only Implantologist & Oral Surgeon",
+    "heroTitle": "Confident smiles, crafted with surgical precision.",
+    "heroSubtitle": "From painless root canals and dental implants to jaw-fracture and oral-cancer care — complete treatment by an MDS Oral & Maxillofacial Surgeon, right here in Jalna.",
+    "announcement": "",
+    "whatsapp": "917588035114",
+    "whatsappMessage": "Hello Doctor, I would like to book an appointment at Matne Advance Dental Clinic.",
+    "phone": "+91 98905 70728",
+    "phone2": "+91 88306 36259",
+    "email": "",
+    "address": "Behind Hotel Shreeji, D.P. Road, Mantha Chaufuli, Jalna, Maharashtra",
+    "addressLocal": "हॉटेल श्रीजी च्या पाठीमागे, डी.पी. रोड, मंठा चौफुली, जालना",
+    "mapQuery": "Matne advanced dental clinic & Implant center, Mantha Chaufuli, Jalna",
+    "hoursWeekdays": "Mon – Sat: 10:00 AM – 2:00 PM, 5:00 PM – 9:00 PM",
+    "hoursSunday": "Sunday: By appointment",
+    "googleReviewsUrl": "https://share.google/a3kD7KeUEIiHb5CQa",
+    "instagram": "",
+    "facebook": ""
+  },
+  "doctors": [
+    {
+      "id": "dr-ashish",
+      "name": "Dr. Ashish B. Matne",
+      "nameLocal": "डॉ. आशिष बा. मातने",
+      "degree": "MDS",
+      "title": "Oral & Maxillofacial Surgeon (Mumbai)",
+      "extra": "Fellowship in Dental Implantology",
+      "bio": "Jalna's implantologist and maxillofacial surgeon. Dr. Ashish treats dental implants, wisdom teeth, jaw and facial fractures, oral cancer and restricted mouth opening from gutkha or tobacco use, bringing hospital-grade surgical training from Mumbai to every procedure.",
+      "photo": "/images/dr-ashish-scrubs.jpg",
+      "photoAlt": "/images/dr-ashish.jpg",
+      "photoPosition": "50% 18%"
+    },
+    {
+      "id": "dr-smita",
+      "name": "Dr. Smita A. Matne (Borey)",
+      "nameLocal": "डॉ. सौ. स्मिता अ. मातने (बोरे)",
+      "degree": "BDS",
+      "title": "Dental Surgeon (MUHS, Nashik)",
+      "extra": "Family, Cosmetic & Children's Dentistry",
+      "bio": "Known for her calm, reassuring chairside manner. Dr. Smita handles root canals, cosmetic fillings, smile designing, whitening, gum care and children's dentistry for the whole family.",
+      "photo": "/images/dr-smita-scrubs.jpg",
+      "photoAlt": "/images/dr-smita.jpg",
+      "photoPosition": "50% 12%"
+    }
+  ],
+  "services": [
+    {
+      "id": "implants",
+      "title": "Dental Implants",
+      "desc": "Permanent, natural-looking replacements for missing teeth, planned by a fellowship-trained implantologist.",
+      "image": "https://images.unsplash.com/photo-1593022356769-11f762e25ed9?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "rct",
+      "title": "Root Canal Treatment",
+      "desc": "Save your natural tooth with modern rotary endodontics and effective anaesthesia, often in a single sitting.",
+      "image": "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "maxfac",
+      "title": "Oral Cancer & Jaw Fracture Care",
+      "desc": "Specialist diagnosis and treatment of oral cancer, jaw and tooth fractures, and restricted mouth opening from gutkha or tobacco use.",
+      "image": "https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "wisdom",
+      "title": "Wisdom Tooth & Extractions",
+      "desc": "Gentle surgical removal of impacted wisdom teeth and painless extractions by a maxillofacial surgeon.",
+      "image": "https://images.unsplash.com/photo-1606265752439-1f18756aa5fc?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "braces",
+      "title": "Braces & Teeth Straightening",
+      "desc": "Correct crooked or gapped teeth with braces and clear aligners for children and adults.",
+      "image": "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "prosthetics",
+      "title": "Artificial Teeth & Crowns",
+      "desc": "Fixed and removable dentures, caps, crowns and bridges that look natural and feel comfortable.",
+      "image": "https://images.unsplash.com/photo-1468493858157-0da44aaf1d13?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "smile",
+      "title": "Smile Designing & Bleaching",
+      "desc": "Smile makeovers, teeth whitening and tooth-coloured cosmetic fillings for a brighter, confident smile.",
+      "image": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "xray",
+      "title": "Dental X-Ray Diagnosis",
+      "desc": "Digital dental X-rays for accurate diagnosis and clear, transparent treatment planning.",
+      "image": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=900&q=75&auto=format&fit=crop"
+    },
+    {
+      "id": "kids",
+      "title": "Kids' Dentistry & Cleaning",
+      "desc": "Gentle first visits for children, plus machine scaling and polishing for healthy gums at every age.",
+      "image": "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=900&q=75&auto=format&fit=crop"
+    }
+  ],
+  "facilities": [
+    { "en": "Oral cancer diagnosis & treatment", "mr": "मुख कर्करोग निदान व उपचार" },
+    { "en": "Tooth & jaw fracture treatment", "mr": "दातांचे व जबड्याचे फॅक्चर उपचार" },
+    { "en": "Restricted mouth opening (gutkha / tobacco)", "mr": "गुटखा व तंबाखूमुळे न उघडणाऱ्या तोंडाचे उपचार" },
+    { "en": "Dental X-ray examination", "mr": "दातांची एक्स-रे तपासणी" },
+    { "en": "Machine scaling (teeth cleaning)", "mr": "मशीनव्दारे दात साफ करणे" },
+    { "en": "Artificial teeth — fixed & removable", "mr": "कृत्रिम दात बसवणे (कायमचे/तात्पुरते)" },
+    { "en": "Caps & crowns", "mr": "कवळी बसविणे" },
+    { "en": "Straightening crooked teeth", "mr": "वेडे वाकडे दात सरळ करणे" },
+    { "en": "Root canal treatment", "mr": "रूट कॅनल ट्रिटमेंट" },
+    { "en": "Gum disease treatment", "mr": "हिरड्यांच्या आजारांची ट्रिटमेंट" },
+    { "en": "Smile designing", "mr": "स्माईल डिझायनिंग" },
+    { "en": "Children's dental treatment", "mr": "लहान मुलांच्या दातांची ट्रिटमेंट" },
+    { "en": "Wisdom tooth removal", "mr": "अक्कल दाढ काढणे" },
+    { "en": "Teeth bleaching (whitening)", "mr": "ब्लिचिंग उपचार पद्धती" },
+    { "en": "Composite / cosmetic filling", "mr": "कंपोझिट / कॉस्मेटिक फिलींग" },
+    { "en": "Tooth extraction", "mr": "दात काढणे" }
+  ],
+  "offers": [],
+  "gallery": [
+    { "id": "g-seed-1", "src": "/images/doctors.jpg", "caption": "Opening day at our new clinic", "createdAt": "2026-01-01T00:00:00.000Z" },
+    { "id": "g-seed-2", "src": "/images/clinic-poster.jpg", "caption": "All dental care under one roof", "createdAt": "2026-01-01T00:00:00.000Z" },
+    { "id": "g-seed-3", "src": "/images/nameplate.jpg", "caption": "Dr. Ashish Matne & Dr. Smita Matne", "createdAt": "2026-01-01T00:00:00.000Z" },
+    { "id": "g-seed-4", "src": "/images/dr-ashish.jpg", "caption": "Our treatment room", "createdAt": "2026-01-01T00:00:00.000Z" },
+    { "id": "g-seed-5", "src": "/images/dr-smita-scrubs.jpg", "caption": "Dr. Smita Matne", "createdAt": "2026-01-01T00:00:00.000Z" },
+    { "id": "g-seed-6", "src": "/images/dr-ashish-full.jpg", "caption": "Dr. Ashish Matne", "createdAt": "2026-01-01T00:00:00.000Z" }
+  ],
+  "appointments": []
+}
