@@ -282,9 +282,38 @@
     }));
   }
 
+  // WhatsApp renders *text* as bold and _text_ as italic. Optional lines are null and dropped.
+  function confirmMessage(a) {
+    const s = data.settings;
+    const clinic = [s.clinicName, s.clinicSubName].filter(Boolean).join(' ');
+    const mapQuery = encodeURIComponent(s.mapQuery || s.address || clinic).replace(/%20/g, '+').replace(/%2C/g, ',');
+    const mapUrl = `https://maps.google.com/?q=${mapQuery}`;
+    const treatment = a.service && a.service !== 'Other' ? a.service.replace(/^Offer: /, '') : '';
+    const opt = (value, line) => (value ? line : null);
+    return [
+      `Hello *${a.name.trim()}* 👋`,
+      '',
+      `Your appointment at *${s.clinicName}* is *confirmed* ✅`,
+      '',
+      `📅 *Date:* ${fmtDate(a.date)}`,
+      opt(a.time, `🕐 *Time:* ${a.time}`),
+      opt(treatment, `🦷 *Treatment:* ${treatment}`),
+      opt(a.doctor, `🩺 *Doctor:* ${a.doctor}`),
+      '',
+      opt(s.address, `📍 *Address:* ${s.address}`),
+      `🗺️ *Directions:* ${mapUrl}`,
+      opt(s.phone, `📞 *Call:* ${s.phone}`),
+      '',
+      'Please arrive 10 minutes early and bring any previous X-rays or prescriptions.',
+      'Need to reschedule? Just reply to this message.',
+      '',
+      `— _${clinic}_`,
+    ].filter((line) => line !== null).join('\n');
+  }
+
   function apptCard(a) {
     const isToday = a.date === localToday();
-    const confirmMsg = `Hello ${a.name}, your appointment at ${data.settings.clinicName} is confirmed for ${fmtDate(a.date)}, ${a.time}. Address: ${data.settings.address}. – ${data.settings.clinicName}`;
+    const confirmMsg = confirmMessage(a);
     return `
       <article class="appt s-${esc(a.status)}">
         <div>

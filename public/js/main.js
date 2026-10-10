@@ -352,16 +352,22 @@
       const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(json.error || 'Could not send your request.');
 
+      // WhatsApp renders *text* as bold. Optional lines are null and dropped.
+      const opt = (value, line) => (value ? line : null);
       const lines = [
-        'Hello Doctor, I have requested an appointment:',
-        `Name: ${data.name}`,
-        `Mobile: ${data.phone}`,
-        `Date: ${fmtDate(data.date)}`,
-        `Time: ${data.time}`,
-        `Treatment: ${data.service}`,
-        data.doctor ? `Doctor: ${data.doctor}` : '',
-        data.message ? `Note: ${data.message}` : '',
-      ].filter(Boolean);
+        'Hello Doctor 👋',
+        'I have requested an *appointment* on your website:',
+        '',
+        `👤 *Name:* ${data.name.trim()}`,
+        `📱 *Mobile:* ${data.phone.trim()}`,
+        `📅 *Date:* ${fmtDate(data.date)}`,
+        opt(data.time, `🕐 *Time:* ${data.time}`),
+        opt(data.service, `🦷 *Treatment:* ${data.service}`),
+        opt(data.doctor, `🩺 *Doctor:* ${data.doctor}`),
+        opt(data.message.trim(), `📝 *Note:* ${data.message.trim()}`),
+        '',
+        'Please confirm my appointment. Thank you!',
+      ].filter((line) => line !== null);
       $('#successName').textContent = data.name.split(' ')[0];
       $('#successDate').textContent = fmtDate(data.date);
       $('#successWa').href = waLink(lines.join('\n'));
