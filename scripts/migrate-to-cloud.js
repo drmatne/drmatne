@@ -1,7 +1,8 @@
 'use strict';
 
 // One-time copy of the local site (data/db.json + uploads/) to Upstash Redis and Vercel Blob.
-// Usage:  vercel env pull .env.local  &&  node --env-file=.env.local scripts/migrate-to-cloud.js [--force]
+// Usage:  vercel env pull .env.local --environment=production
+//         node --env-file=.env.local scripts/migrate-to-cloud.js [--force]
 
 const fs = require('fs');
 const path = require('path');
@@ -16,8 +17,8 @@ const MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',
 async function main() {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token || !process.env.BLOB_READ_WRITE_TOKEN) {
-    throw new Error('Missing Upstash Redis or Vercel Blob env vars. Run `vercel env pull .env.local` first.');
+  if (!url || !token || !(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID)) {
+    throw new Error('Missing Upstash Redis or Vercel Blob env vars. Run `vercel env pull .env.local --environment=production` first.');
   }
   const redis = new Redis({ url, token });
 

@@ -21,7 +21,8 @@ const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const redis = REDIS_URL && REDIS_TOKEN ? new (require('@upstash/redis').Redis)({ url: REDIS_URL, token: REDIS_TOKEN }) : null;
-const blob = process.env.BLOB_READ_WRITE_TOKEN ? require('@vercel/blob') : null;
+// Newer Blob stores authenticate with BLOB_STORE_ID + Vercel's OIDC token instead of a read-write token.
+const blob = process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID ? require('@vercel/blob') : null;
 const DB_KEY = 'md:db';
 const APPT_KEY = 'md:appointments';
 
