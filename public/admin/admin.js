@@ -31,9 +31,41 @@
     setTimeout(() => el.remove(), isError ? 5000 : 2800);
   }
 
+  // Phone photos are often 5–10 MB, and the host rejects requests over 4.5 MB,
+  // so resize large images in the browser before uploading.
+  async function shrinkImage(file, maxSide = 2000, quality = 0.85) {
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < 700 * 1024) return file;
+    try {
+      const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+      const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close?.();
+      const out = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+      if (!out || out.size >= file.size) return file;
+      return new File([out], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' });
+    } catch {
+      return file;
+    }
+  }
+
+  async function shrinkForm(form) {
+    const out = new FormData();
+    for (const [key, value] of form.entries()) {
+      if (value instanceof File && value.size) out.append(key, await shrinkImage(value));
+      else if (!(value instanceof File)) out.append(key, value);
+    }
+    return out;
+  }
+
   async function api(path, { method = 'GET', body, form } = {}) {
     const opts = { method, headers: {} };
-    if (form) opts.body = form;
+    if (form) opts.body = await shrinkForm(form);
     else if (body !== undefined) {
       opts.headers['Content-Type'] = 'application/json';
       opts.body = JSON.stringify(body);
@@ -44,6 +76,7 @@
       showLogin();
       throw new Error('Session expired. Please log in again.');
     }
+    if (res.status === 413) throw new Error('That image is too large to upload. Try a smaller photo.');
     if (!res.ok) throw new Error(json.error || `Request failed (${res.status})`);
     return json;
   }
@@ -448,11 +481,28 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!form.images.files.length) return toast('Choose at least one photo.', true);
-      withBusy($('button[type=submit]', form), async () => {
-        const { items } = await api('/api/admin/gallery', { method: 'POST', form: new FormData(form) });
-        data.gallery.unshift(...items);
-        render();
-        toast(`${items.length} photo${items.length === 1 ? '' : 's'} uploaded`);
+      // One photo per request keeps each upload under the host's size limit.
+      const files = [...form.images.files].slice(0, 30);
+      const caption = form.caption.value;
+      const btn = $('button[type=submit]', form);
+      withBusy(btn, async () => {
+        const added = [];
+        try {
+          for (const [i, file] of files.entries()) {
+            btn.textContent = `Uploading ${i + 1} of ${files.length}…`;
+            const fd = new FormData();
+            fd.append('images', file);
+            fd.append('caption', caption);
+            const { items } = await api('/api/admin/gallery', { method: 'POST', form: fd });
+            added.unshift(...items);
+          }
+        } finally {
+          if (added.length) {
+            data.gallery.unshift(...added);
+            render();
+            toast(`${added.length} photo${added.length === 1 ? '' : 's'} uploaded`);
+          }
+        }
       });
     });
 

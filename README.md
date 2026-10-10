@@ -27,13 +27,34 @@ On first start, `data/db.json` is created from `seed.json` with the login **admi
 | `UPLOAD_DIR`     | `./uploads` | Where uploaded images are stored                          |
 | `ADMIN_USER`     | `admin`     | Initial username (only used when `db.json` is first made) |
 | `ADMIN_PASSWORD` | `admin123`  | Initial password (only used when `db.json` is first made) |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | (unset) | Upstash Redis; set automatically when connected on Vercel |
+| `BLOB_READ_WRITE_TOKEN` | (unset) | Vercel Blob; set automatically when connected on Vercel |
 
 ## Data & backups
 
-All content and appointments live in `data/db.json`, and uploaded images live in `uploads/`. Back up **both folders**. To reset to the original content, stop the server and delete `data/db.json`. Remember that this also resets the login.
+Locally, all content and appointments live in `data/db.json`, and uploaded images live in `uploads/`. Back up **both folders**. To reset to the original content, stop the server and delete `data/db.json`. Remember that this also resets the login. On Vercel, the same data lives in Upstash Redis and Vercel Blob instead (see below); the admin panel's CSV export is the easy way to back up appointments.
 
-## Deploying
+## Deploying to Vercel
 
-Any host that runs a long-lived Node process with a persistent disk works (a VPS, Render or Railway with a volume, etc.). Point `DATA_DIR` and `UPLOAD_DIR` at the persistent disk. Serverless platforms with ephemeral filesystems (e.g. Vercel, Netlify Functions) are **not** suitable.
+Vercel's disk is temporary, so in production the app stores content and appointments in **Upstash Redis** and images in **Vercel Blob**. It switches to them automatically when their environment variables are present.
 
-Put it behind HTTPS (e.g. nginx or Caddy as a reverse proxy). The login cookie is marked `secure` automatically when the request arrives over HTTPS. Admin sessions are held in memory, so restarting the server logs the admin out.
+1. In Vercel, **Add New → Project** and import this GitHub repo. Keep the defaults (`vercel.json` already sets everything).
+2. In the project's **Storage** tab, create and connect:
+   - an **Upstash for Redis** database (Free plan is plenty), and
+   - a **Blob** store with **public** access.
+3. Under **Settings → Environment Variables**, add `ADMIN_PASSWORD` with a strong password. It sets the first login, so the site is never live with `admin123`.
+4. **Redeploy** so the new variables take effect.
+
+Optional: copy your existing local content and photos to the live site, which also keeps your current login:
+
+```bash
+npx vercel link
+npx vercel env pull .env.local
+node --env-file=.env.local scripts/migrate-to-cloud.js
+```
+
+Every push to `main` then redeploys automatically.
+
+### Other hosts
+
+Any host that runs a long-lived Node process with a persistent disk also works (a VPS, Render or Railway with a volume). Run `npm start`, point `DATA_DIR` and `UPLOAD_DIR` at the persistent disk, and put it behind HTTPS.
